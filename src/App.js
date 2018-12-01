@@ -1,25 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ReactTable from "react-table";
+import 'react-table/react-table.css'
 
 class App extends Component {
   render() {
+    const data = [{
+      name: 'Tanner Linsley',
+      age: 26,
+      friend: {
+        name: 'Jason Maurer',
+        age: 23,
+      }
+    }]
+
+    const columns = [{
+      Header: 'Name',
+      accessor: 'name' // String-based value accessors!
+    }, {
+      Header: 'Age',
+      accessor: 'age',
+      Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+    }, {
+      id: 'friendName', // Required because our accessor is not a string
+      Header: 'Friend Name',
+      accessor: 'friend.name' // Custom value accessors!
+    }, {
+      Header: props => <span>Friend Age</span>, // Custom header components!
+      accessor: 'friend.age'
+    }]
+
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div class="container">
+      <ReactTable
+      data={data}
+      columns={columns}
+      showPagination={true}
+      showPaginationTop={true}
+      defaultPageSize={5}
+      />
       </div>
     );
   }
